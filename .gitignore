@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.pkl
+*.h5
+*.log
+*.db
+*.sqlite3
+.DS_Store
+.env
+venv/
+.idea/
+.vscode/
+outputs/
+static/outputs/

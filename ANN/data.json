@@ -1,0 +1,250 @@
+{"intents": [
+    {"tag": "greeting",
+     "patterns": ["Hi there", "How are you", "Is anyone there?","Hey","Hola", "Hello", "Good day"],
+     "responses": ["Hello, thanks for asking", "Good to see you again", "Hi there, how can I help?"],
+     "context": [""]
+    },
+    {"tag": "goodbye",
+     "patterns": ["Bye", "See you later", "Goodbye", "Nice chatting to you, bye", "Till next time"],
+     "responses": ["See you!", "Have a nice day", "Bye! Come back again soon."],
+     "context": [""]
+    },
+    {"tag": "thanks",
+     "patterns": ["Thanks", "Thank you", "That's helpful", "Awesome, thanks", "Thanks for helping me"],
+     "responses": ["Happy to help!", "Any time!", "My pleasure"],
+     "context": [""]
+    },
+    {"tag": "noanswer",
+     "patterns": [],
+     "responses": ["Sorry, can't understand you", "Please give me more info", "Not sure I understand"],
+     "context": [""]
+    },
+    {"tag": "options",
+     "patterns": ["How you could help me?", "What you can do?", "What help you provide?", "How you can be helpful?", "What support is offered"],
+     "responses": ["I can guide you through Adverse drug reaction list, Blood pressure tracking, Hospitals and Pharmacies", "Offering support for Adverse drug reaction, Blood pressure, Hospitals and Pharmacies"],
+     "context": [""]
+    },
+    {"tag": "adverse_drug",
+     "patterns": ["How to check Adverse drug reaction?", "Open adverse drugs module", "Give me a list of drugs causing adverse behavior", "List all drugs suitable for patient with adverse reaction", "Which drugs dont have adverse reaction?" ],
+     "responses": ["Navigating to Adverse drug reaction module"],
+     "context": [""]
+    },
+    {"tag": "blood_pressure",
+     "patterns": ["Open blood pressure module", "Task related to blood pressure", "Blood pressure data entry", "I want to log blood pressure results", "Blood pressure data management" ],
+     "responses": ["Navigating to Blood Pressure module"],
+     "context": [""]
+    },
+    {"tag": "blood_pressure_search",
+     "patterns": ["I want to search for blood pressure result history", "Blood pressure for patient", "Load patient blood pressure result", "Show blood pressure results for patient", "Find blood pressure results by ID" ],
+     "responses": ["Please provide Patient ID", "Patient ID?"],
+     "context": ["search_blood_pressure_by_patient_id"]
+    },
+    {"tag": "search_blood_pressure_by_patient_id",
+     "patterns": [],
+     "responses": ["Loading Blood pressure result for Patient"],
+     "context": [""]
+    },
+    {"tag": "pharmacy_search",
+     "patterns": ["Find me a pharmacy", "Find pharmacy", "List of pharmacies nearby", "Locate pharmacy", "Search pharmacy" ],
+     "responses": ["Please provide pharmacy name"],
+     "context": ["search_pharmacy_by_name"]
+    },
+    {"tag": "search_pharmacy_by_name",
+     "patterns": [],
+     "responses": ["Loading pharmacy details"],
+     "context": [""]
+    },
+    {"tag": "hospital_search",
+     "patterns": ["Lookup for hospital", "Searching for hospital to transfer patient", "I want to search hospital data", "Hospital lookup for patient", "Looking up hospital details" ],
+     "responses": ["Please provide hospital name or location"],
+     "context": ["search_hospital_by_params"]
+    },
+    {"tag": "search_hospital_by_params",
+     "patterns": [],
+     "responses": ["Please provide hospital type"],
+     "context": ["search_hospital_by_type"]
+    },
+    {"tag": "search_hospital_by_type",
+     "patterns": [],
+     "responses": ["Loading hospital details"],
+     "context": [""]
+    },
+    {"tag": "My_name",
+     "patterns": ["what is your name","your name","who are you"],
+     "responses": ["Rehan","Rehan Adil","RAA"],
+     "context": [""]
+    },
+    {
+        "tag": "Her_Name",
+        "patterns": [
+          "what is ur girl's name", 
+          "whats her name", 
+          "name of ur love", 
+          "who is ur love", 
+          "tell me her name", 
+          "wht's her name", 
+          "wat iz ur grls name"
+        ],
+        "responses": [
+          "Her name starts with 'O' and ends with 'A'.",
+          "She has a beautiful name, but I keep it close to my heart.",
+          "It's a name that means a lot to me."
+        ],
+        "context": [""]
+      },
+      {
+        "tag": "Her_Looks",
+        "patterns": [
+          "how does she look", 
+          "describe her appearance", 
+          "wht does she look like", 
+          "howz ur girl looks", 
+          "is she pretty", 
+          "how beautiful is she"
+        ],
+        "responses": [
+          "She’s very small and sensitive, with brown eyes and always wears a hijab.",
+          "She looks like an angel, very little and delicate.",
+          "She often wears pink sandals and has a very gentle appearance."
+        ],
+        "context": [""]
+      },
+      {
+        "tag": "Her_Personality",
+        "patterns": [
+          "how is her personality", 
+          "describe her character", 
+          "what's she like", 
+          "is she funny or serious", 
+          "tell me about her personality", 
+          "how would u describe her"
+        ],
+        "responses": [
+          "She has a weak yet sharp personality, very caring but sometimes stands with other girls, which hurts me.",
+          "She’s funny with her friends, always making them smile.",
+          "Even though she talks rudely to me, I can feel her kindness."
+        ],
+        "context": [""]
+      },
+      {
+        "tag": "Her_Habits",
+        "patterns": [
+          "what r her habits", 
+          "tell me her hobbies", 
+          "wht does she like to do", 
+          "does she like reading", 
+          "what r her interests", 
+          "what are her hobbies"
+        ],
+        "responses": [
+          "She loves reading books, poetry, and working for people.",
+          "Her hobbies include volunteering and helping others.",
+          "She’s passionate about hard work and always prioritizes group work."
+        ],
+        "context": [""]
+      },
+      {
+        "tag": "Her_Favorites",
+        "patterns": [
+          "whts her fav food", 
+          "does she like fast food", 
+          "favorite color of ur love", 
+          "what does she eat", 
+          "what are her fav activities", 
+          "does she like burgers"
+        ],
+        "responses": [
+          "I think she likes fast food, especially burgers, pizza, and samosas.",
+          "She seems to enjoy food that's quick and delicious.",
+          "Her favorite activities include hard work and helping others."
+        ],
+        "context": [""]
+      },
+      {
+        "tag": "Her_Volunteering",
+        "patterns": [
+          "does she volunteer", 
+          "is she a volunteer", 
+          "what does she do in free time", 
+          "how does she help ppl", 
+          "is she involved in charity", 
+          "does she work as a volunteer"
+        ],
+        "responses": [
+          "Yes, she’s very active as a volunteer and loves to work for people.",
+          "Her heart is big; she’s always ready to help others.",
+          "Volunteering is something she’s deeply passionate about."
+        ],
+        "context": [""]
+      },
+      {
+        "tag": "Her_Relationship_With_You",
+        "patterns": [
+          "wht is ur relation with her", 
+          "how do u know her", 
+          "how did u meet", 
+          "r u close to her", 
+          "how long u know her", 
+          "are u friends with her"
+        ],
+        "responses": [
+          "We met at university, but due to some misunderstandings, we haven't met properly.",
+          "I first saw her at university, and since then, she’s been on my mind.",
+          "We were friends, but that ended, though my feelings remain."
+        ],
+        "context": [""]
+      },
+      {
+        "tag": "Your_Feelings_For_Her",
+        "patterns": [
+          "do u love her", 
+          "wht do u feel for her", 
+          "r u in love with her", 
+          "is she important to u", 
+          "how do u feel about her", 
+          "are u thinking about her"
+        ],
+        "responses": [
+          "I love her deeply, even though I know I may not deserve her.",
+          "My feelings for her are strong, and she means the world to me.",
+          "I think about her every day, and I know she’s someone special."
+        ],
+        "context": [""]
+      },
+      {
+        "tag": "Your_Pain",
+        "patterns": [
+          "does it hurt", 
+          "r u in pain", 
+          "do u miss her", 
+          "how does it feel to be away", 
+          "does it hurt not to be with her", 
+          "how r u coping without her"
+        ],
+        "responses": [
+          "It hurts a lot, but I just want her to be happy.",
+          "The pain is there, but I wish her nothing but the best.",
+          "I miss her, but I know I have to let her go."
+        ],
+        "context": [""]
+      },
+      {
+        "tag": "Your_Wishes_For_Her",
+        "patterns": [
+          "do u want her to be happy", 
+          "wht r ur wishes for her", 
+          "do u wish her well", 
+          "wht do u want for her", 
+          "r u praying for her", 
+          "do u wish her the best"
+        ],
+        "responses": [
+          "I pray that God gives her a man better than me.",
+          "All I want is for her to be happy and find the best in life.",
+          "My only wish is for her to have a joyful and fulfilling life."
+        ],
+        "context": [""]
+      }
+      
+]
+}

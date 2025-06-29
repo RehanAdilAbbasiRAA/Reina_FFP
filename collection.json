@@ -1,0 +1,706 @@
+{
+	"info": {
+		"_postman_id": "d904235a-3cd9-419f-a822-edad195f2ad0",
+		"name": "FastAPI MT5 Manager API Copy 2",
+		"description": "API for managing MT5 accounts and retrieving trader information",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30450322"
+	},
+	"item": [
+		{
+			"name": "Get JWT Token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "{{ADMIN_USERNAME}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{ADMIN_PASSWORD}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/auth/token",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"auth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Trader Account",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcyOTUyOTkyMn0.n6WKHWpFr2VTxbN3oDy-_O_FkT14xQiSvbmxrXQovw8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/user/create-account?user_id={{user_id}}&plan={{plan}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"user",
+						"create-account"
+					],
+					"query": [
+						{
+							"key": "user_id",
+							"value": "{{user_id}}"
+						},
+						{
+							"key": "plan",
+							"value": "{{plan}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Trader Account",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcyOTUyOTkyMn0.n6WKHWpFr2VTxbN3oDy-_O_FkT14xQiSvbmxrXQovw8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/user/delete-account/{{login}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"user",
+						"delete-account",
+						"{{login}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List User Accounts",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcyOTg4NzQ4Nn0.erful4H6tFlk_Y-wbVH2Rl9rugcH_3AIzdB4hEfMDh4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/user/list-accounts/{{user_id}}?limit={{limit}}&skip={{skip}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"user",
+						"list-accounts",
+						"{{user_id}}"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "{{limit}}"
+						},
+						{
+							"key": "skip",
+							"value": "{{skip}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Account Status",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcyOTUyOTkyMn0.n6WKHWpFr2VTxbN3oDy-_O_FkT14xQiSvbmxrXQovw8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/user/account-status/{{login}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"user",
+						"account-status",
+						"{{login}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Trading Status",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcyOTUyOTkyMn0.n6WKHWpFr2VTxbN3oDy-_O_FkT14xQiSvbmxrXQovw8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"login\": \"{{login}}\",\n  \"enable_trading\": {{enable_trading}}\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/user/set-trading-status?login={{login}}&enable_trading={{enable_trading}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"user",
+						"set-trading-status"
+					],
+					"query": [
+						{
+							"key": "login",
+							"value": "{{login}}"
+						},
+						{
+							"key": "enable_trading",
+							"value": "{{enable_trading}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Trading Status",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcyOTUyOTkyMn0.n6WKHWpFr2VTxbN3oDy-_O_FkT14xQiSvbmxrXQovw8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/user/trading-status/{{login}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"user",
+						"trading-status",
+						"{{login}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Leaderboard",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcyOTUyOTkyMn0.n6WKHWpFr2VTxbN3oDy-_O_FkT14xQiSvbmxrXQovw8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/user/leaderboard",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"user",
+						"leaderboard"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Manager Accounts",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcyOTg4NzQ4Nn0.erful4H6tFlk_Y-wbVH2Rl9rugcH_3AIzdB4hEfMDh4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/manager/prop_accounts?limit={{limit}}&skip={{skip}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"manager",
+						"prop_accounts"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "{{limit}}"
+						},
+						{
+							"key": "skip",
+							"value": "{{skip}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Analytics",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcyOTg4NzQ4Nn0.erful4H6tFlk_Y-wbVH2Rl9rugcH_3AIzdB4hEfMDh4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/manager/account_analytics?limit={{limit}}&skip={{skip}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"manager",
+						"account_analytics"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "{{limit}}"
+						},
+						{
+							"key": "skip",
+							"value": "{{skip}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Upgraded Accounts",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcyOTg4NzQ4Nn0.erful4H6tFlk_Y-wbVH2Rl9rugcH_3AIzdB4hEfMDh4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/manager/upgraded_accounts?limit={{limit}}&skip={{skip}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"manager",
+						"upgraded_accounts"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "{{limit}}"
+						},
+						{
+							"key": "skip",
+							"value": "{{skip}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Breached Accounts",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcyOTg4NzQ4Nn0.erful4H6tFlk_Y-wbVH2Rl9rugcH_3AIzdB4hEfMDh4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/manager/breached_accounts?limit={{limit}}&skip={{skip}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"manager",
+						"breached_accounts"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "{{limit}}"
+						},
+						{
+							"key": "skip",
+							"value": "{{skip}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Server Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Balance Equity",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcyOTg4NzQ4Nn0.erful4H6tFlk_Y-wbVH2Rl9rugcH_3AIzdB4hEfMDh4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/user/api/balance-equity?user_id={{user_id}}&login={{login}}&timeframe={{timeframe}}&limit={{limit}}&skip={{skip}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"user",
+						"api",
+						"balance-equity"
+					],
+					"query": [
+						{
+							"key": "user_id",
+							"value": "{{user_id}}"
+						},
+						{
+							"key": "login",
+							"value": "{{login}}"
+						},
+						{
+							"key": "timeframe",
+							"value": "{{timeframe}}"
+						},
+						{
+							"key": "limit",
+							"value": "{{limit}}"
+						},
+						{
+							"key": "skip",
+							"value": "{{skip}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "upgrade_account",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcyOTUyOTkyMn0.n6WKHWpFr2VTxbN3oDy-_O_FkT14xQiSvbmxrXQovw8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/manager/upgrade_account_phase_1/{{login}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"manager",
+						"upgrade_account_phase_1",
+						"{{login}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deal_history",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcyOTg4NzQ4Nn0.erful4H6tFlk_Y-wbVH2Rl9rugcH_3AIzdB4hEfMDh4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/user/api/deal-history/?user_id={{user_id}}&login={{login}}&limit={{limit}}&skip={{skip}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"user",
+						"api",
+						"deal-history",
+						""
+					],
+					"query": [
+						{
+							"key": "user_id",
+							"value": "{{user_id}}"
+						},
+						{
+							"key": "login",
+							"value": "{{login}}"
+						},
+						{
+							"key": "limit",
+							"value": "{{limit}}"
+						},
+						{
+							"key": "skip",
+							"value": "{{skip}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "billing_account",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcyOTg4NzQ4Nn0.erful4H6tFlk_Y-wbVH2Rl9rugcH_3AIzdB4hEfMDh4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/user/billing_accounts?user_id={{user_id}}&limit={{limit}}&skip={{skip}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"user",
+						"billing_accounts"
+					],
+					"query": [
+						{
+							"key": "user_id",
+							"value": "{{user_id}}"
+						},
+						{
+							"key": "limit",
+							"value": "{{limit}}"
+						},
+						{
+							"key": "skip",
+							"value": "{{skip}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
