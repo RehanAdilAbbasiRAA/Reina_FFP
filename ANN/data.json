@@ -1,250 +1,346 @@
-{"intents": [
-    {"tag": "greeting",
-     "patterns": ["Hi there", "How are you", "Is anyone there?","Hey","Hola", "Hello", "Good day"],
-     "responses": ["Hello, thanks for asking", "Good to see you again", "Hi there, how can I help?"],
-     "context": [""]
-    },
-    {"tag": "goodbye",
-     "patterns": ["Bye", "See you later", "Goodbye", "Nice chatting to you, bye", "Till next time"],
-     "responses": ["See you!", "Have a nice day", "Bye! Come back again soon."],
-     "context": [""]
-    },
-    {"tag": "thanks",
-     "patterns": ["Thanks", "Thank you", "That's helpful", "Awesome, thanks", "Thanks for helping me"],
-     "responses": ["Happy to help!", "Any time!", "My pleasure"],
-     "context": [""]
-    },
-    {"tag": "noanswer",
-     "patterns": [],
-     "responses": ["Sorry, can't understand you", "Please give me more info", "Not sure I understand"],
-     "context": [""]
-    },
-    {"tag": "options",
-     "patterns": ["How you could help me?", "What you can do?", "What help you provide?", "How you can be helpful?", "What support is offered"],
-     "responses": ["I can guide you through Adverse drug reaction list, Blood pressure tracking, Hospitals and Pharmacies", "Offering support for Adverse drug reaction, Blood pressure, Hospitals and Pharmacies"],
-     "context": [""]
-    },
-    {"tag": "adverse_drug",
-     "patterns": ["How to check Adverse drug reaction?", "Open adverse drugs module", "Give me a list of drugs causing adverse behavior", "List all drugs suitable for patient with adverse reaction", "Which drugs dont have adverse reaction?" ],
-     "responses": ["Navigating to Adverse drug reaction module"],
-     "context": [""]
-    },
-    {"tag": "blood_pressure",
-     "patterns": ["Open blood pressure module", "Task related to blood pressure", "Blood pressure data entry", "I want to log blood pressure results", "Blood pressure data management" ],
-     "responses": ["Navigating to Blood Pressure module"],
-     "context": [""]
-    },
-    {"tag": "blood_pressure_search",
-     "patterns": ["I want to search for blood pressure result history", "Blood pressure for patient", "Load patient blood pressure result", "Show blood pressure results for patient", "Find blood pressure results by ID" ],
-     "responses": ["Please provide Patient ID", "Patient ID?"],
-     "context": ["search_blood_pressure_by_patient_id"]
-    },
-    {"tag": "search_blood_pressure_by_patient_id",
-     "patterns": [],
-     "responses": ["Loading Blood pressure result for Patient"],
-     "context": [""]
-    },
-    {"tag": "pharmacy_search",
-     "patterns": ["Find me a pharmacy", "Find pharmacy", "List of pharmacies nearby", "Locate pharmacy", "Search pharmacy" ],
-     "responses": ["Please provide pharmacy name"],
-     "context": ["search_pharmacy_by_name"]
-    },
-    {"tag": "search_pharmacy_by_name",
-     "patterns": [],
-     "responses": ["Loading pharmacy details"],
-     "context": [""]
-    },
-    {"tag": "hospital_search",
-     "patterns": ["Lookup for hospital", "Searching for hospital to transfer patient", "I want to search hospital data", "Hospital lookup for patient", "Looking up hospital details" ],
-     "responses": ["Please provide hospital name or location"],
-     "context": ["search_hospital_by_params"]
-    },
-    {"tag": "search_hospital_by_params",
-     "patterns": [],
-     "responses": ["Please provide hospital type"],
-     "context": ["search_hospital_by_type"]
-    },
-    {"tag": "search_hospital_by_type",
-     "patterns": [],
-     "responses": ["Loading hospital details"],
-     "context": [""]
-    },
-    {"tag": "My_name",
-     "patterns": ["what is your name","your name","who are you"],
-     "responses": ["Rehan","Rehan Adil","RAA"],
-     "context": [""]
+{
+  "intents": [
+    {
+      "tag": "tshirt_query",
+      "patterns": [
+        "Show me some t-shirts",
+        "I want a printed t-shirt",
+        "Suggest me casual tees",
+        "Do you have round neck t-shirts?",
+        "Display slim fit t-shirts",
+        "Give me cotton t-shirt options",
+        "What are your best t-shirts?"
+      ],
+      "responses": [
+        "Here are our latest collection of t-shirts.",
+        "Showing trending t-shirts.",
+        "You're going to love these casual t-shirts!"
+      ],
+      "context": [""]
     },
     {
-        "tag": "Her_Name",
-        "patterns": [
-          "what is ur girl's name", 
-          "whats her name", 
-          "name of ur love", 
-          "who is ur love", 
-          "tell me her name", 
-          "wht's her name", 
-          "wat iz ur grls name"
-        ],
-        "responses": [
-          "Her name starts with 'O' and ends with 'A'.",
-          "She has a beautiful name, but I keep it close to my heart.",
-          "It's a name that means a lot to me."
-        ],
-        "context": [""]
-      },
-      {
-        "tag": "Her_Looks",
-        "patterns": [
-          "how does she look", 
-          "describe her appearance", 
-          "wht does she look like", 
-          "howz ur girl looks", 
-          "is she pretty", 
-          "how beautiful is she"
-        ],
-        "responses": [
-          "She’s very small and sensitive, with brown eyes and always wears a hijab.",
-          "She looks like an angel, very little and delicate.",
-          "She often wears pink sandals and has a very gentle appearance."
-        ],
-        "context": [""]
-      },
-      {
-        "tag": "Her_Personality",
-        "patterns": [
-          "how is her personality", 
-          "describe her character", 
-          "what's she like", 
-          "is she funny or serious", 
-          "tell me about her personality", 
-          "how would u describe her"
-        ],
-        "responses": [
-          "She has a weak yet sharp personality, very caring but sometimes stands with other girls, which hurts me.",
-          "She’s funny with her friends, always making them smile.",
-          "Even though she talks rudely to me, I can feel her kindness."
-        ],
-        "context": [""]
-      },
-      {
-        "tag": "Her_Habits",
-        "patterns": [
-          "what r her habits", 
-          "tell me her hobbies", 
-          "wht does she like to do", 
-          "does she like reading", 
-          "what r her interests", 
-          "what are her hobbies"
-        ],
-        "responses": [
-          "She loves reading books, poetry, and working for people.",
-          "Her hobbies include volunteering and helping others.",
-          "She’s passionate about hard work and always prioritizes group work."
-        ],
-        "context": [""]
-      },
-      {
-        "tag": "Her_Favorites",
-        "patterns": [
-          "whts her fav food", 
-          "does she like fast food", 
-          "favorite color of ur love", 
-          "what does she eat", 
-          "what are her fav activities", 
-          "does she like burgers"
-        ],
-        "responses": [
-          "I think she likes fast food, especially burgers, pizza, and samosas.",
-          "She seems to enjoy food that's quick and delicious.",
-          "Her favorite activities include hard work and helping others."
-        ],
-        "context": [""]
-      },
-      {
-        "tag": "Her_Volunteering",
-        "patterns": [
-          "does she volunteer", 
-          "is she a volunteer", 
-          "what does she do in free time", 
-          "how does she help ppl", 
-          "is she involved in charity", 
-          "does she work as a volunteer"
-        ],
-        "responses": [
-          "Yes, she’s very active as a volunteer and loves to work for people.",
-          "Her heart is big; she’s always ready to help others.",
-          "Volunteering is something she’s deeply passionate about."
-        ],
-        "context": [""]
-      },
-      {
-        "tag": "Her_Relationship_With_You",
-        "patterns": [
-          "wht is ur relation with her", 
-          "how do u know her", 
-          "how did u meet", 
-          "r u close to her", 
-          "how long u know her", 
-          "are u friends with her"
-        ],
-        "responses": [
-          "We met at university, but due to some misunderstandings, we haven't met properly.",
-          "I first saw her at university, and since then, she’s been on my mind.",
-          "We were friends, but that ended, though my feelings remain."
-        ],
-        "context": [""]
-      },
-      {
-        "tag": "Your_Feelings_For_Her",
-        "patterns": [
-          "do u love her", 
-          "wht do u feel for her", 
-          "r u in love with her", 
-          "is she important to u", 
-          "how do u feel about her", 
-          "are u thinking about her"
-        ],
-        "responses": [
-          "I love her deeply, even though I know I may not deserve her.",
-          "My feelings for her are strong, and she means the world to me.",
-          "I think about her every day, and I know she’s someone special."
-        ],
-        "context": [""]
-      },
-      {
-        "tag": "Your_Pain",
-        "patterns": [
-          "does it hurt", 
-          "r u in pain", 
-          "do u miss her", 
-          "how does it feel to be away", 
-          "does it hurt not to be with her", 
-          "how r u coping without her"
-        ],
-        "responses": [
-          "It hurts a lot, but I just want her to be happy.",
-          "The pain is there, but I wish her nothing but the best.",
-          "I miss her, but I know I have to let her go."
-        ],
-        "context": [""]
-      },
-      {
-        "tag": "Your_Wishes_For_Her",
-        "patterns": [
-          "do u want her to be happy", 
-          "wht r ur wishes for her", 
-          "do u wish her well", 
-          "wht do u want for her", 
-          "r u praying for her", 
-          "do u wish her the best"
-        ],
-        "responses": [
-          "I pray that God gives her a man better than me.",
-          "All I want is for her to be happy and find the best in life.",
-          "My only wish is for her to have a joyful and fulfilling life."
-        ],
-        "context": [""]
-      }
-      
-]
+      "tag": "pants_query",
+      "patterns": [
+        "I need some new pants",
+        "Do you have jeans?",
+        "I want slim fit trousers",
+        "Show me cargo pants",
+        "Suggest me some formal pants",
+        "Looking for comfy joggers",
+        "Do you have chinos?"
+      ],
+      "responses": [
+        "Here's a variety of pants for every style.",
+        "Take a look at our pants collection.",
+        "We have formal and casual pants. Choose your fit."
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "tops_query",
+      "patterns": [
+        "I want to try tops",
+        "Show me cute tops",
+        "Any floral tops available?",
+        "Do you have off-shoulder tops?",
+        "I need casual tops for girls",
+        "Suggest some elegant tops"
+      ],
+      "responses": [
+        "Here’s what we found in tops.",
+        "Browse these trending tops.",
+        "We think you'll love these tops."
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "dress_query",
+      "patterns": [
+        "Show me party dresses",
+        "I want a long dress",
+        "Suggest me some frocks",
+        "Do you have maxi dresses?",
+        "Looking for elegant dresses",
+        "Suggest western wear dresses"
+      ],
+      "responses": [
+        "These dresses are perfect for every occasion.",
+        "Here are the latest dresses in stock.",
+        "Find your ideal dress from these options."
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "color_preference",
+      "patterns": [
+        "I like black shirts",
+        "Do you have red t-shirts?",
+        "Show me white dresses",
+        "I'm looking for blue jeans",
+        "I love pastel tops",
+        "Any olive pants?"
+      ],
+      "responses": [
+        "Filtering options by your color preference.",
+        "Great choice! Showing items in that color.",
+        "Here's everything we found in your favorite color."
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "style_preference",
+      "patterns": [
+        "I like modern styles",
+        "Suggest streetwear look",
+        "Show me vintage options",
+        "I want minimal fashion",
+        "Got anything for classic wear?",
+        "Looking for Korean fashion"
+      ],
+      "responses": [
+        "Here are items matching your style.",
+        "We've curated options for your preferred look.",
+        "Showing modern/vintage/classic styles."
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "fit_preference",
+      "patterns": [
+        "I want slim fit clothes",
+        "Do you have oversized t-shirts?",
+        "Show me regular fit pants",
+        "I prefer bodycon dresses",
+        "Looking for relaxed fit shirts"
+      ],
+      "responses": [
+        "These items match your preferred fit.",
+        "Filter applied for fit preference.",
+        "We’ve selected products that match your style and fit."
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "gender_category",
+      "patterns": [
+        "Show me men's t-shirts",
+        "Do you have clothes for women?",
+        "I need girls tops",
+        "Suggest men's casuals",
+        "I want female fashion",
+        "Do you have unisex clothes?"
+      ],
+      "responses": [
+        "Applying gender filter to product list.",
+        "Here are the best styles for the selected gender.",
+        "You’ll love these gender-specific options."
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "fabric_preference",
+      "patterns": [
+        "I want cotton t-shirts",
+        "Do you have linen shirts?",
+        "Show me silk tops",
+        "I need polyester pants",
+        "Suggest denim jackets"
+      ],
+      "responses": [
+        "Here’s what we found in the selected fabric.",
+        "Filtering items by fabric type.",
+        "Explore your favorite fabric styles."
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "budget_query",
+      "patterns": [
+        "Show me cheap t-shirts",
+        "I want affordable pants",
+        "Suggest me dresses under 1000",
+        "I’m looking for budget clothes",
+        "Do you have discount clothes?",
+        "Show tops in low price"
+      ],
+      "responses": [
+        "Here are products within your budget.",
+        "Filtered products under your price range.",
+        "Displaying affordable styles."
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "unknown_input",
+      "patterns": [],
+      "responses": [
+        "Sorry, I couldn't understand that.",
+        "Please rephrase or try something else.",
+        "I'm still learning fashion — can you try again?"
+      ],
+      "context": [""]
+    },
+        {
+      "tag": "seasonal_wear",
+      "patterns": [
+        "Show me summer clothes",
+        "I want winter jackets",
+        "Suggest warm clothes",
+        "Looking for breathable summer outfits",
+        "Do you have monsoon wear?",
+        "Show me winter fashion"
+      ],
+      "responses": [
+        "Here are seasonal wear items perfect for the weather.",
+        "Take a look at our latest collection for the season.",
+        "Showing trending clothes for your preferred season."
+      ],
+      "context": [""]
+    },
+
+    {
+      "tag": "occasion_wear",
+      "patterns": [
+        "I need clothes for a wedding",
+        "Suggest something for a party",
+        "Looking for formal meeting wear",
+        "Do you have something casual?",
+        "What to wear to a beach trip?",
+        "Suggest outfits for a date"
+      ],
+      "responses": [
+        "Here’s what we suggest for your special occasion.",
+        "Perfect outfits for your event, right this way.",
+        "We’ve got you covered with suitable occasion wear."
+      ],
+      "context": [""]
+    },
+
+    {
+      "tag": "accessories_query",
+      "patterns": [
+        "Show me some sunglasses",
+        "Do you have belts?",
+        "Suggest me watches",
+        "Looking for handbags",
+        "I want matching accessories",
+        "Suggest fashion accessories"
+      ],
+      "responses": [
+        "These accessories will complete your look.",
+        "Matching accessories just for you.",
+        "Browse our latest accessories collection."
+      ],
+      "context": [""]
+    },
+
+    {
+      "tag": "footwear_query",
+      "patterns": [
+        "Show me white sneakers",
+        "Do you have formal shoes?",
+        "I need sandals for summer",
+        "Suggest me party heels",
+        "Looking for sports shoes",
+        "Show me flat shoes"
+      ],
+      "responses": [
+        "Here’s a wide range of footwear to choose from.",
+        "We have formal, casual and sports shoes in stock.",
+        "Your perfect pair of shoes is just a click away."
+      ],
+      "context": [""]
+    },
+
+    {
+      "tag": "size_query",
+      "patterns": [
+        "I need large size clothes",
+        "Do you have medium pants?",
+        "Show me extra small tops",
+        "Looking for XL t-shirts",
+        "Suggest me clothes that fit large size",
+        "I want plus size dresses"
+      ],
+      "responses": [
+        "Here are the items available in your size.",
+        "Filtering options for your selected size.",
+        "We support a wide range of sizes for everyone."
+      ],
+      "context": [""]
+    },
+
+    {
+      "tag": "new_arrivals",
+      "patterns": [
+        "Show me new arrivals",
+        "What's trending now?",
+        "Suggest me the latest styles",
+        "Do you have new stock?",
+        "Any new fashion drops?",
+        "Display the latest collection"
+      ],
+      "responses": [
+        "Here are our latest arrivals.",
+        "You’ll love these fresh additions.",
+        "Trending styles just landed!"
+      ],
+      "context": [""]
+    },
+
+    {
+      "tag": "discount_offers",
+      "patterns": [
+        "Any current offers?",
+        "Show me discounted items",
+        "I want sale clothes",
+        "Do you have promotions?",
+        "Looking for special deals",
+        "Any clothes on clearance?"
+      ],
+      "responses": [
+        "Here are our ongoing discounts and offers.",
+        "Check out the hottest deals right now!",
+        "Everything on sale, just for you."
+      ],
+      "context": [""]
+    },
+
+    {
+      "tag": "material_sensitivity",
+      "patterns": [
+        "I'm allergic to wool",
+        "Avoid synthetic fabrics",
+        "I need soft material only",
+        "No polyester clothes please",
+        "Suggest skin-friendly fabrics"
+      ],
+      "responses": [
+        "We filtered items based on your fabric sensitivity.",
+        "Here are clothing options that avoid the materials you specified.",
+        "Only skin-friendly fabrics shown."
+      ],
+      "context": [""]
+    },
+
+    {
+      "tag": "return_policy",
+      "patterns": [
+        "What is your return policy?",
+        "Can I return clothes?",
+        "How many days to return?",
+        "Do you accept exchanges?",
+        "Is there a refund option?"
+      ],
+      "responses": [
+        "You can return items within 14 days with original tags.",
+        "Yes, we accept returns and offer exchanges.",
+        "Refunds are processed within 5–7 business days."
+      ],
+      "context": [""]
+    }
+  ]
 }
+
+
+
