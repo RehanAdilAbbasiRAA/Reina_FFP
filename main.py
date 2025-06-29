@@ -191,7 +191,7 @@ async def second_model_api(input: SecondModelInput):
         logger.error("❌ Invalid image URL(s) provided.")
         raise HTTPException(status_code=400, detail="Invalid image or cloth URL")
 
-    if input.type.lower() not in ["tshirt", "pant", "hoodie", "saree", "dress"]:
+    if input.type.lower() not in ["tshirt", "pant", "hoodie", "saree", "dress","Polo shirt","shorts","Dress Shirt"]:
         logger.warning("⚠️ Unrecognized cloth type. Defaulting to 'tshirt'")
         input.type = "tshirt"
 
