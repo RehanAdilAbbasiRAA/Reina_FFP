@@ -1,7 +1,7 @@
 __pycache__/
-*.pyc
-*.pkl
-*.h5
+# *.pyc
+# *.pkl
+# *.h5
 *.log
 *.db
 *.sqlite3
