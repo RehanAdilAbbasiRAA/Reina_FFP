@@ -234,87 +234,15 @@ async def edit_image(data: ImageEditRequest):
 
 # ---------- Route: Second Model Logic ----------
 
-from fastapi import HTTPException
+{
+  "status": "success",
+  "user_image_type": "short",
+  "cloth_image_type": "large",
+  "enhanced_user_image": "https://.../enhanced/user/short/...",
+  "enhanced_cloth_image": "https://.../enhanced/cloth/large/...",
+  "generated_image": "https://.../user_cloth_short_large_final.jpg"
+}
 
-class SecondModelInput(BaseModel):
-    label: str
-    image_url: str
-    cloth_url: str
-    type: str
-
-
-@app.post("/api/second-model")
-async def second_model_api(input: SecondModelInput):
-    """
-    This endpoint simulates the second model in the virtual try-on pipeline.
-    It enhances the cloth and user-provided images and prepares them for the final try-on model.
-
-    Steps:
-    1. Validate input URLs and type.
-    2. Simulate enhancement of image and cloth.
-    3. Combine processed data and return enhanced assets.
-    """
-    logger.info("🧠 Starting second model processing...")
-    logger.debug(f"📥 Received Label: {input.label}")
-    logger.debug(f"👕 Cloth Type: {input.type}")
-    logger.debug(f"🖼️ Image URL: {input.image_url}")
-    logger.debug(f"🖼️ Cloth URL: {input.cloth_url}")
-
-    # ----- Step 1: Validate inputs -----
-    if not input.image_url.startswith("http") or not input.cloth_url.startswith("http"):
-        logger.error("❌ Invalid image URL(s) provided.")
-        raise HTTPException(status_code=400, detail="Invalid image or cloth URL")
-
-    if input.type.lower() not in ["tshirt", "pant", "hoodie", "saree", "dress","Polo shirt","shorts","Dress Shirt"]:
-        logger.warning("⚠️ Unrecognized cloth type. Defaulting to 'tshirt'")
-        input.type = "tshirt"
-
-    # ----- Step 2: Simulate enhancement pipeline -----
-    logger.info("✨ Enhancing input images...")
-
-    enhanced_user_image_url = await simulate_image_enhancement(input.image_url, mode="user")
-    enhanced_cloth_image_url = await simulate_image_enhancement(input.cloth_url, mode="cloth")
-
-    logger.info("🧬 Enhancement complete. Preparing final result.")
-
-    # ----- Step 3: Simulate combination or preparation for final model -----
-    final_image_url = f"https://your-server.com/output/{input.label}_{input.type}_final.jpg"
-
-    logger.debug(f"✅ Enhanced User Image: {enhanced_user_image_url}")
-    logger.debug(f"✅ Enhanced Cloth Image: {enhanced_cloth_image_url}")
-    logger.debug(f"🎯 Final Composed Image: {final_image_url}")
-
-    return {
-        "status": "success",
-        "message": "Images enhanced and prepared for try-on",
-        "enhanced_user_image": enhanced_user_image_url,
-        "enhanced_cloth_image": enhanced_cloth_image_url,
-        "generated_image": final_image_url
-    }
-
-
-# ----- Helper: Simulated enhancement logic -----
-async def simulate_image_enhancement(image_url: str, mode: str = "user") -> str:
-    """
-    Simulates an image enhancement operation.
-    In a real-world scenario, this would involve passing the image to a ML model or API.
-
-    Args:
-        image_url (str): The URL of the image to be enhanced.
-        mode (str): Either 'user' or 'cloth' for respective processing.
-
-    Returns:
-        str: A fake but structured enhanced image URL.
-    """
-    logger.info(f"🔧 Simulating enhancement for {mode} image...")
-
-    # Simulated delay for realism (optional)
-    import asyncio
-    await asyncio.sleep(0.3)
-
-    # Simulated transformation logic (in production this would be actual enhancement code)
-    enhanced_url = image_url.replace("upload", f"enhanced/{mode}/v2")
-    return enhanced_url
 
 
 # ---------- Call Second Model Internally ----------
