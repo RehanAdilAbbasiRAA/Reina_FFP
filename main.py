@@ -6,7 +6,65 @@ import asyncio
 from datetime import datetime
 
 import httpx  # For async HTTP requests
+import os
+import random
+import string
+from fastapi import Depends, HTTPException, APIRouter
+from fastapi.security import OAuth2PasswordBearer
+from jose import JWTError, jwt
+from datetime import datetime, timedelta
+from pymongo import MongoClient
+from bson import ObjectId
+from passlib.context import CryptContext
+from requests.adapters import HTTPAdapter
+import MT5Manager
+from dotenv import load_dotenv
+import MetaTrader5 as mt5
+from apscheduler.schedulers.background import BackgroundScheduler
+import logging
+from typing import List, Optional
+import pytz
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+import ssl
+import threading
+from apscheduler.triggers.interval import IntervalTrigger
+from pymongo import DESCENDING
+from sendgrid.helpers.mail import Email
+import sendgrid
+from sendgrid.helpers.mail import Mail, Email, To, TemplateId
+import httpx
+from tradelocker_user import *
+import time
+from motor.motor_asyncio import AsyncIOMotorClient
+import asyncio
+import concurrent.futures
+from concurrent.futures import ThreadPoolExecutor
+from aiofiles import open as aio_open
+import aiohttp
+# from trading_checks_v2 import *
+from pymongo import UpdateOne
+from collections import defaultdict
 
+manager = None
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+# Suppress APScheduler executor logs
+logging.getLogger("apscheduler.executors.default").setLevel(logging.WARNING)
+MONGODB_URI='mongodb+srv://info:c1xw37IjbpqdbhbdsbdnsbdjF@cluster0.vpt3p9z.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+# Load environment variables
+load_dotenv()
+
+# MongoDB connection
+MONGODB_URL = os.getenv("MONGODB_URI")
+DB_NAME = os.getenv("DB_NAME")
+GROUP_FOR_BREACHED_ACCOUNTS = os.getenv("GROUP_FOR_BREACHED_ACCOUNTS")
+NODE_SERVER_URL = os.getenv("NGROK_URL")  # Set this in your .env
+ASSIGN_CERTIFICATE_URL = f"{NODE_SERVER_URL}/certificate/assign"
+# dev
+# client = MongoClient(MONGODB_URL)
+# prod (only for  server)
 from fastapi import FastAPI, UploadFile, File, Form, Request, HTTPException, BackgroundTasks, Body
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -23,6 +81,22 @@ from keras.models import load_model
 import nltk
 from nltk.stem import WordNetLemmatizer
 
+
+
+
+client = AsyncIOMotorClient(
+    MONGODB_URL,
+)
+db = client[DB_NAME]
+users_collection = db["users"]
+mt5_credentials_collection = db["mt5_credentials"]  # Collection for MT5 credentials
+balance_equity_collection = db["trading_graph"]
+deals_collection = db["deal_history"]
+payment_collection = db["payments"]
+payment_plans_collection = db["paymentplans"]
+payout_details_collection = db["payoutdetails"]
+# Certificate ID to add for users who meet the profit threshold
+certificate_id = ObjectId("684073d0a85779f3d0cd1b0d")
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
