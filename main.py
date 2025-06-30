@@ -267,18 +267,11 @@ async def second_model_api(input: SecondModelInput):
         input.type = "tshirt"
 
     # ----- Step 2: Enhance images and determine size type -----
-    logger.info("✨ Enhancing input images...")
-
-    enhanced_user_image_url, user_size_type = await simulate_image_enhancement(input.image_url, mode="user")
-    enhanced_cloth_image_url, cloth_size_type = await simulate_image_enhancement(input.cloth_url, mode="cloth")
-
     logger.info("🧬 Enhancement complete. Preparing final result...")
 
     # ----- Step 3: Compose simulated final image URL -----
     final_image_url = f"https://your-server.com/output/{input.label}_{input.type}_{user_size_type}_{cloth_size_type}_final.jpg"
 
-    logger.debug(f"✅ Enhanced User Image: {enhanced_user_image_url}")
-    logger.debug(f"✅ Enhanced Cloth Image: {enhanced_cloth_image_url}")
     logger.debug(f"🎯 Final Composed Image: {final_image_url}")
 
     return {
