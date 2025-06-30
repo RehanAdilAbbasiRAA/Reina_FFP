@@ -45,6 +45,12 @@ import aiohttp
 # from trading_checks_v2 import *
 from pymongo import UpdateOne
 from collections import defaultdict
+from fastapi import HTTPException
+from pydantic import BaseModel
+from PIL import Image
+from io import BytesIO
+import httpx
+import asyncio
 
 manager = None
 
@@ -234,12 +240,7 @@ async def edit_image(data: ImageEditRequest):
 
 # ---------- Route: Second Model Logic ----------
 
-from fastapi import HTTPException
-from pydantic import BaseModel
-from PIL import Image
-from io import BytesIO
-import httpx
-import asyncio
+
 
 class SecondModelInput(BaseModel):
     label: str
@@ -247,8 +248,16 @@ class SecondModelInput(BaseModel):
     cloth_url: str
     type: str
 
-# Threshold for image size
-SHORT_IMAGE_THRESHOLD = (600, 800)  # width < 600 and height < 800 = short image
+# Define image size categories
+def categorize_image_size(width: int, height: int) -> str:
+    if 400 <= width <= 600 and 400 <= height <= 600:
+        return "small"
+    elif 700 <= width <= 900 and 700 <= height <= 900:
+        return "medium"
+    elif 1200 <= width <= 1600 and 1200 <= height <= 1600:
+        return "large"
+    else:
+        return "unknown"
 
 @app.post("/api/second-model")
 async def second_model_api(input: SecondModelInput):
@@ -257,7 +266,7 @@ async def second_model_api(input: SecondModelInput):
     logger.debug(f"🖼️ Image URL: {input.image_url}")
     logger.debug(f"👕 Cloth URL: {input.cloth_url}")
 
-    # ----- Step 1: Validate URLs and type -----
+    # ----- Step 1: Validate Inputs -----
     if not input.image_url.startswith("http") or not input.cloth_url.startswith("http"):
         logger.error("❌ Invalid image URL(s) provided.")
         raise HTTPException(status_code=400, detail="Invalid image or cloth URL")
@@ -266,48 +275,48 @@ async def second_model_api(input: SecondModelInput):
         logger.warning("⚠️ Unrecognized cloth type. Defaulting to 'tshirt'")
         input.type = "tshirt"
 
-    # ----- Step 2: Enhance images and determine size type -----
-    logger.info("🧬 Enhancement complete. Preparing final result...")
+    # ----- Step 2: Fetch and categorize both images -----
+    try:
+        cloth_size_type = await get_image_size_category(input.cloth_url, mode="cloth")
+        user_size_type = cloth_size_type  # Model image will match cloth image size
 
-    # ----- Step 3: Compose simulated final image URL -----
-    final_image_url = f"https://your-server.com/output/{input.label}_{input.type}_{user_size_type}_{cloth_size_type}_final.jpg"
+        logger.info(f"👕 Cloth image size category: {cloth_size_type}")
+        logger.info(f"🧍 Model image set to size: {user_size_type}")
+
+    except Exception as e:
+        logger.error(f"❌ Image size classification failed: {e}")
+        raise HTTPException(status_code=500, detail="Failed to determine image sizes")
+
+    # ----- Step 3: Generate output URL -----
+    final_image_url = f"https://your-server.com/output/{input.label}_{input.type}_{user_size_type}_final.jpg"
 
     logger.debug(f"🎯 Final Composed Image: {final_image_url}")
 
     return {
         "status": "success",
-        "message": "Images enhanced and sized",
-        "user_image_type": user_size_type,
+        "message": "Model image size matched with cloth size",
         "cloth_image_type": cloth_size_type,
-        "enhanced_user_image": enhanced_user_image_url,
-        "enhanced_cloth_image": enhanced_cloth_image_url,
+        "model_image_type": user_size_type,
         "generated_image": final_image_url
     }
 
-# ----- Helper function -----
-async def simulate_image_enhancement(image_url: str, mode: str = "user") -> tuple:
-    logger.info(f"🔧 Simulating enhancement for {mode} image...")
+# ----- Image Categorization Logic -----
+async def get_image_size_category(image_url: str, mode: str = "user") -> str:
+    logger.info(f"📥 Checking {mode} image dimensions...")
 
-    await asyncio.sleep(0.3)  # Optional delay
+    async with httpx.AsyncClient() as client:
+        response = await client.get(image_url)
+        response.raise_for_status()
+        image = Image.open(BytesIO(response.content))
+        width, height = image.size
 
-    try:
-        async with httpx.AsyncClient() as client:
-            response = await client.get(image_url)
-            response.raise_for_status()
-            image = Image.open(BytesIO(response.content))
-            width, height = image.size
-            logger.info(f"📐 {mode.capitalize()} image size: {width}x{height}")
+        logger.info(f"📐 {mode.capitalize()} image size: {width}x{height}")
 
-            # Determine size type
-            size_type = "short" if width < SHORT_IMAGE_THRESHOLD[0] or height < SHORT_IMAGE_THRESHOLD[1] else "large"
+        size_type = categorize_image_size(width, height)
+        if size_type == "unknown":
+            logger.warning(f"⚠️ {mode.capitalize()} image does not fit known categories.")
+        return size_type
 
-            # Simulated enhanced URL based on size
-            enhanced_url = image_url.replace("upload", f"enhanced/{mode}/{size_type}")
-            return enhanced_url, size_type
-
-    except Exception as e:
-        logger.error(f"❌ Failed to process {mode} image: {e}")
-        raise HTTPException(status_code=500, detail=f"Failed to enhance {mode} image")
 
 
 
