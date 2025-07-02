@@ -94,16 +94,11 @@ client = AsyncIOMotorClient(
     MONGODB_URL,
 )
 db = client[DB_NAME]
-users_collection = db["users"]
-mt5_credentials_collection = db["mt5_credentials"]  # Collection for MT5 credentials
-balance_equity_collection = db["trading_graph"]
-deals_collection = db["deal_history"]
-payment_collection = db["payments"]
-payment_plans_collection = db["paymentplans"]
-payout_details_collection = db["payoutdetails"]
-# Certificate ID to add for users who meet the profit threshold
-certificate_id = ObjectId("684073d0a85779f3d0cd1b0d")
-
+users_collection = db["Users"]
+mt5_credentials_collection = db["virtualtryon"]  # Collection for MT5 credentials
+payment_collection = db["Discountvirtualtryon"]
+Categories_collection = db["Categories"]
+Items_collection = db["Items"]
 # Setup logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -111,7 +106,7 @@ logger = logging.getLogger(__name__)
 # Initialize FastAPI app
 app = FastAPI()
 
-# Load ANN model
+# Load CNN model
 lemmatizer = WordNetLemmatizer()
 model = load_model('model.h5')
 words = pickle.load(open('texts.pkl', 'rb'))
@@ -120,7 +115,7 @@ classes = pickle.load(open('labels.pkl', 'rb'))
 @app.on_event("startup")
 def startup_event():
     logger.info("🚀 FastAPI app started")
-    logger.info("✅ ANN model loaded")
+    logger.info("✅ CNN model loaded")
     logger.info("✅ Vocabulary and classes loaded")
 
 
@@ -161,7 +156,7 @@ def predict_class(sentence):
     return classes[results[0][0]] if results else "unknown"
 
 
-# ---------- Route: First Model (ANN) ----------
+# ---------- Route: First Model (CNN) ----------
 
 @app.post("/api/edit-image")
 async def edit_image(data: ImageEditRequest):
@@ -170,7 +165,7 @@ async def edit_image(data: ImageEditRequest):
     
     Steps:
     1. Validate and log input.
-    2. Perform prompt classification using ANN.
+    2. Perform prompt classification using CNN.
     3. Prepare structured payload for second model.
     4. Forward request and await response from second model.
     5. Return structured final response.
@@ -191,15 +186,15 @@ async def edit_image(data: ImageEditRequest):
     logger.debug(f"Cloth Image URL: {data.cloth_image}")
     logger.debug(f"Clothing Type: {data.cloth_type}")
 
-    # ----- Step 2: ANN Classification -----
-    logger.info("🔍 Classifying input text using trained ANN model...")
+    # ----- Step 2: CNN Classification -----
+    logger.info("🔍 Classifying input text using trained CNN model...")
     classification = predict_class(data.prompt)
 
     if classification == "unknown":
         logger.warning("⚠️ Prompt could not be confidently classified. Using fallback.")
         classification = "generic"
 
-    logger.info(f"🤖 ANN Classification Result: {classification}")
+    logger.info(f"🤖 CNN Classification Result: {classification}")
 
     # ----- Step 3: Prepare input for second model -----
     second_model_input = {
@@ -238,6 +233,33 @@ async def edit_image(data: ImageEditRequest):
     return response_payload
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # ---------- Route: Second Model Logic ----------
 
 
@@ -261,44 +283,44 @@ def categorize_image_size(width: int, height: int) -> str:
 
 @app.post("/api/second-model")
 async def second_model_api(input: SecondModelInput):
-    logger.info("🧠 Starting second model processing...")
-    logger.debug(f"📥 Received Label: {input.label}, Type: {input.type}")
-    logger.debug(f"🖼️ Image URL: {input.image_url}")
-    logger.debug(f"👕 Cloth URL: {input.cloth_url}")
-
-    # ----- Step 1: Validate Inputs -----
+# Step 1: Validate URLs
     if not input.image_url.startswith("http") or not input.cloth_url.startswith("http"):
-        logger.error("❌ Invalid image URL(s) provided.")
         raise HTTPException(status_code=400, detail="Invalid image or cloth URL")
 
     if input.type.lower() not in ["tshirt", "pant", "tops"]:
-        logger.warning("⚠️ Unrecognized cloth type. Defaulting to 'tshirt'")
         input.type = "tshirt"
 
-    # ----- Step 2: Fetch and categorize both images -----
+    # Step 2: Categorize image sizes
     try:
         cloth_size_type = await get_image_size_category(input.cloth_url, mode="cloth")
-        user_size_type = cloth_size_type  # Model image will match cloth image size
-
-        logger.info(f"👕 Cloth image size category: {cloth_size_type}")
-        logger.info(f"🧍 Model image set to size: {user_size_type}")
-
+        user_size_type = cloth_size_type
     except Exception as e:
-        logger.error(f"❌ Image size classification failed: {e}")
-        raise HTTPException(status_code=500, detail="Failed to determine image sizes")
+        raise HTTPException(status_code=500, detail=f"Image size check failed: {e}")
 
-    # ----- Step 3: Generate output URL -----
-    final_image_url = f"https://your-server.com/output/{input.label}_{input.type}_{user_size_type}_final.jpg"
+    # Step 3: Download both images and create UploadFile-like objects
+    async def download_as_uploadfile(url: str, filename: str) -> UploadFile:
+        async with httpx.AsyncClient() as client:
+            res = await client.get(url)
+            res.raise_for_status()
+            file = SpooledTemporaryFile()
+            file.write(res.content)
+            file.seek(0)
+            return StarletteUploadFile(filename=filename, file=file, content_type="image/png")
 
-    logger.debug(f"🎯 Final Composed Image: {final_image_url}")
+    try:
+        model_upload = await download_as_uploadfile(input.image_url, "model.png")
+        cloth_upload = await download_as_uploadfile(input.cloth_url, "cloth.png")
+    except Exception as e:
+        logger.error(f"❌ Image download failed: {e}")
+        raise HTTPException(status_code=500, detail="Failed to fetch images from URLs")
 
-    return {
-        "status": "success",
-        "message": "Model image size matched with cloth size",
-        "cloth_image_type": cloth_size_type,
-        "model_image_type": user_size_type,
-        "generated_image": final_image_url
-    }
+    # Step 4: Call the virtual_tryon() function directly
+    response = await virtual_tryon(
+        model_image=model_upload,
+        cloth_image=cloth_upload,
+        blend_type="overlay"
+    )
+    return response  # FileResponse returned directly
 
 # ----- Image Categorization Logic -----
 async def get_image_size_category(image_url: str, mode: str = "user") -> str:
@@ -327,7 +349,6 @@ async def second_model_inference(payload: dict):
     async with AsyncClient() as client:
         response = await client.post("http://localhost:8000/api/second-model", json=payload)
         return response.json()
-
 
 # ---------- Call Third Model Internally ----------
 
@@ -385,99 +406,3 @@ async def virtual_tryon(
     return FileResponse(output_path, media_type="image/png", filename="tryon_result.png")
 # ---------- Run the Server ----------
 
-
-
-
-
-
-
-# ---------- Call Fourth Model Internally ----------
-
-class SaveImageRequest(BaseModel):
-    image_url: str
-    label: str
-    user_id: str
-    timestamp: Optional[str] = None
-
-@app.post("/api/save-image")
-async def save_generated_image(data: SaveImageRequest):
-    """
-    Simulates saving a generated image and related metadata to the database or filesystem.
-    """
-    logger.info("💾 Saving generated image...")
-
-    # Step 1: Validate image URL
-    if not data.image_url.startswith("http"):
-        logger.error("❌ Invalid image URL received.")
-        raise HTTPException(status_code=400, detail="Invalid image URL")
-
-    # Step 2: Simulate database entry or file write
-    image_metadata = {
-        "user_id": data.user_id,
-        "label": data.label,
-        "url": data.image_url,
-        "saved_at": data.timestamp or datetime.utcnow().isoformat()
-    }
-
-    logger.debug(f"📋 Metadata saved: {image_metadata}")
-
-    # Step 3: Simulate success
-    return {
-        "status": "success",
-        "message": "Image saved successfully",
-        "data": image_metadata
-    }
-
-
-
-
-
-
-# ---------- Call Fifth Model Internally ----------
-@app.post("/api/retrain-model")
-async def retrain_model(background_tasks: BackgroundTasks, training_data_path: str = Body(..., embed=True)):
-    """
-    Simulates retraining the ML model from updated dataset (async style).
-    This can be ANN, KNN, or hybrid.
-    """
-    logger.info("🔄 Retraining model requested...")
-
-    if not os.path.exists(training_data_path):
-        logger.warning("🚫 Training data not found.")
-        raise HTTPException(status_code=404, detail="Training dataset not found.")
-
-    background_tasks.add_task(simulate_training_pipeline, training_data_path)
-
-    return {
-        "status": "initiated",
-        "message": f"Model retraining started using dataset: {training_data_path}"
-    }
-
-async def simulate_training_pipeline(path: str):
-    """
-    Simulates time-consuming model training process.
-    """
-    logger.info(f"📚 Simulating training on data at: {path}")
-
-    # Simulate dataset loading
-    await asyncio.sleep(1)
-    logger.debug("📁 Dataset loaded")
-
-    # Simulate preprocessing
-    await asyncio.sleep(1)
-    logger.debug("🧹 Data cleaned and normalized")
-
-    # Simulate training
-    await asyncio.sleep(2)
-    logger.info("🧠 Model retrained successfully on new data")
-
-    # Simulate saving model
-    await asyncio.sleep(1)
-    logger.info("💾 New model saved as `model_retrained.h5`")
-
-
-
-
-if __name__ == "__main__":
-    logger.info("💡 Starting Uvicorn server...")
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
